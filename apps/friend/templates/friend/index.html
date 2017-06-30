@@ -25,7 +25,7 @@
                         {% for friend in userfriends %}
                         <tr>
                             <td align="center">{{ friend.alias }}</td>
-                            <td align="center"> <a href="View Profile" %}>View Profile</a> | <a href="">Remove as Friend</a></td>
+                            <td align="center"> <a href="{% url 'friend:showUser' friend.id %}">View Profile</a> | <a href="">Remove as Friend</a></td>
                         </tr>
                         {% endfor %}
                     </table>

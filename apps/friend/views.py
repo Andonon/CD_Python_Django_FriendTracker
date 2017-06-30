@@ -15,10 +15,13 @@ def index(request):
     }
     return render(request, 'friend/index.html', context)
 
-def showUser(request):
-    return redirect('friend:showUser')
+def showUser(request, userid):
+    user = User.objects.get(id=userid)
+    context = {
+        'user': user
+    }
+    return render(request, 'friend/showUser.html', context)
 
 def addFriend(request):
-    print "*"*500, request.POST, "*"*500
     insertAddFriend = User.objects.insertAddFriend(request.POST)
     return redirect('friend:index')

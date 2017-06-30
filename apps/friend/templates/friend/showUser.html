@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>User Profile - Friend Tracker</title>
+        <meta description='Profile Page for Friend Tracker App'
+        <meta charset='utf-8'/>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <div id="nav">
+                <h1>{{ user.alias }}'s Profile</h1>
+                <form action="{% url 'friend:index' %}" id="Home" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="homeButton" value="Home">
+                </form><br>
+                <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="logoutbutton" value="Log Out">
+                </form>   
+            </div>
+            <div id="profile">
+                <h4>Name: {{ user.fname }} {{ user.lname}}</h4>
+                <h4>Email Address: {{ user.email }}</h4>
+            </div>
