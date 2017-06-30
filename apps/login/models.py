@@ -80,6 +80,13 @@ class UserManager(models.Manager):
             results['status'] = False
         return results
 
+    def insertAddFriend(self, postData):
+        """ Add Friend to this user account """
+        results = {'status': True, 'errors': []}
+        userid = User.objects.get(id=postData['user_id'])
+        friendid = User.objects.get(id=postData['friend_id'])
+        friendid.friend.add(userid.id)
+        return results
 
 class User(models.Model):
     fname = models.CharField(max_length=100)
@@ -88,9 +95,11 @@ class User(models.Model):
     email = models.CharField(max_length=100, unique=True)
     userpassword = models.CharField(max_length=100)
     dob = models.DateField()
+    friend = models.ManyToManyField('User', related_name='friends')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    objects = UserManager()
+    #friends
 
     def __str__(self):
         return str(self.id)
