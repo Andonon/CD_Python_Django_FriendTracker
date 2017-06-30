@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Friend Tracker</title>
+        <meta description='Main Page for Friend Tracker App'
+        <meta charset='utf-8'/>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <div id="nav">
+                <h1>Hello {{ user.alias }},</h1>
+                <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="logoutbutton" value="Log Out">
+                </form>   
+            </div>
+            <div id="usersfriends">
+                <h4>Here is a list of your friends:</h4>
+                {% if userfriends %}
+                    <table width="50%" border="1">
+                        <tr>
+                            <th>Alias</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for friend in userfriends %}
+                        <tr>
+                            <td align="center">{{ friend.alias }}</td>
+                            <td align="center"> View Profile (link) | Remove as Friend (link) </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>No friends yet? Add some! It really is that easy. :-)</p>
+                {% endif %}
+            </div>
+            <div id="otherusersfriends">
+                <h4>Other users not on your friends list:</h4>
+                {% if otherfriends %}
+                    <table width="50%" border="1">
+                        <tr>
+                            <th>Alias</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for friend in otherfriends %}
+                        <tr>
+                            <td align="center">{{ friend.alias }}</td>
+                            <td align="center"> Add as Friend (button) </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>No other users have registered. Invite them!</p>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

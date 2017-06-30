@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Friend Tracker - Login</title>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <h3>Register to access the Friend Tracker app.</h3>
+                <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            <form action="{% url 'auth:register' %}" id="registerform" method="post">
+                {% csrf_token %}
+                <label for="fname">First Name:</label>
+                <input type="text" name="fname" value="{{ request.session.temp_reg_form.fname }}" placeholder="min 3 chars" autofocus><br><br>
+                <label for="lname">Last Name:</label>
+                <input type="text" name="lname" value="{{ request.session.temp_reg_form.lname }}" placeholder="min 3 chars"><br><br>
+                <label for="alias">Alias:</label>
+                <input type="text" name="alias" value="{{ request.session.temp_reg_form.alias }}" placeholder="min 3 chars"><br><br>
+                <label for="email">Email:</label>
+                <input type="text" name="email" value="{{ request.session.temp_reg_form.email }}"><br><br>
+                <label for="userpassword">Password:</label>
+                <input type="password" name="userpassword" placeholder="min 8 chars"><br><br>
+                <label for="cpassword">Confirm Password:</label>
+                <input type="password" name="cpassword" placeholder="confirm password"><br>
+                <p><font size='2'><i>*Password should be at least 8 characters</i></font></p>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" name="dob" value="{{ request.session.temp_reg_form.dob }}"><br><br>
+                <input type="submit" name="registerbutton" value="Register">
+            </form> 
+            <h3>Login</h3>
+            <form action="{% url 'auth:login' %}" id="loginform" method="post">
+                {% csrf_token %}
+                <label for="email">Email:</label>
+                <input type="text" name="email"><br><br>
+                <label for="userpassword">Password:</label>
+                <input type="password" name="userpassword"><br><br>
+                <input type="submit" name="registerbutton" value="Login">
+            </form>        
+        </div>
+    </body>
+</html>
