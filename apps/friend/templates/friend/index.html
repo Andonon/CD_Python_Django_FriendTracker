@@ -1,65 +1,70 @@
 <!DOCTYPE html>
 <html lang='en'>
-    <head>
-        <title>Friend Tracker</title>
-        <meta description='Main Page for Friend Tracker App'
-        <meta charset='utf-8'/>
-    </head>
-    <body>
-        <div id='wrapper'>
-            <div id="nav">
-                <h1>Hello {{ user.alias }},</h1>
-                <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
-                    {% csrf_token %}
-                    <input type="submit" name="logoutbutton" value="Log Out">
-                </form>   
-            </div>
-            <div id="usersfriends">
-                <h4>Here is a list of your friends:</h4>
-                {% if userfriends %}
-                    <table width="50%" border="1">
-                        <tr>
-                            <th>Alias</th>
-                            <th>Action</th>
-                        </tr>
-                        {% for friend in userfriends %}
-                        <tr>
-                            <td align="center">{{ friend.alias }}</td>
-                            <td align="center"> <a href="{% url 'friend:showUser' friend.id %}">View Profile</a> | <a href="{% url 'friend:removeFriend' friend.id %}">Remove as Friend</a></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% else %}
-                    <p>No friends yet? Add some! It really is that easy. :-)</p>
-                {% endif %}
-            </div>
-            <div id="otherusersfriends">
-                <h4>Other users not on your friends list:</h4>
-                <p><i><font size="2">If you don't see your friends here, invite them to register</font></i></p>
-                {% if otherfriends %}
-                    <table width="50%" border="1">
-                        <tr>
-                            <th>Alias</th>
-                            <th>Action</th>
-                        </tr>
-                        {% for friend in otherfriends %}
-                        <tr>
-                            <td align="center"><a href="{% url 'friend:showUser' friend.id %}">{{ friend.alias }}</a></td>
-                            <td align="center">
-                                <form action="{% url 'friend:addFriend' %}" id="addFriendButton" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="user_id" value="{{ user.id }}">
-                                    <input type="hidden" name="friend_id" value="{{ friend.id }}">                 
-                                    <input type="submit" name="addFriendButton" value="Add as Friend">
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% else %}
-                    <p>No other users have registered. Invite them!</p>
-                {% endif %}
-            </div>
+<head>
+    <title>Friend Tracker</title>
+    <meta description='Main Page for Friend Tracker App'
+    <meta charset='utf-8'/>
+</head>
+<body>
+    <div id='wrapper'>
+        <div id="nav">
+            <h1>Hello {{ user.alias }},</h1>
+            <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
+                {% csrf_token %}
+                <input type="submit" name="logoutbutton" value="Log Out">
+            </form>   
         </div>
-    </body>
+        <hr>
+        <div id="usersfriends">
+            <h4>Here is a list of your friends:</h4>
+            {% if userfriends %}
+                <table width="50%" border="1">
+                    <tr>
+                        <th>Alias</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for friend in userfriends %}
+                    <tr>
+                        <td align="center">{{ friend.alias }}</td>
+                        <td align="center"> <a href="{% url 'friend:showUser' friend.id %}">View Profile</a> | <a href="{% url 'friend:removeFriend' friend.id %}">Remove as Friend</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No friends yet? Add some! It really is that easy. :-)</p>
+            {% endif %}
+        </div>
+        <hr>
+        <div id="otherusersfriends">
+            <h4>Other users not on your friends list:</h4>
+            <p><i><font size="2">If you don't see your friends here, invite them to register</font></i></p>
+            {% if otherfriends %}
+                <table width="50%" border="1">
+                    <tr>
+                        <th>Alias</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for friend in otherfriends %}
+                    <tr>
+                        <td align="center"><a href="{% url 'friend:showUser' friend.id %}">{{ friend.alias }}</a></td>
+                        <td align="center">
+                            <form action="{% url 'friend:addFriend' %}" id="addFriendButton" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <input type="hidden" name="friend_id" value="{{ friend.id }}">                 
+                                <input type="submit" name="addFriendButton" value="Add as Friend">
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No other users have registered. Invite them!</p>
+            {% endif %}
+        </div>
+    </div>
+    <div id="footer">
+        <p><font size="1">by: Troy Center, Coding Dojo Student, June 2017</font></p>
+    </div>
+</body>
 </html>

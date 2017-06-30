@@ -5,6 +5,10 @@ from django.shortcuts import render, redirect
 from .models import User
 
 def index(request):
+    try: 
+        user = User.objects.get(id=request.session['id'])  
+    except KeyError: 
+        return render(request, 'friend/error.html')
     user = User.objects.get(id=request.session['id'])
     userfriends = User.objects.filter(friend=request.session['id']).exclude(id=request.session['id'])
     otherfriends = User.objects.exclude(friend=request.session['id']).exclude(id=request.session['id'])

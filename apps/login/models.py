@@ -85,6 +85,7 @@ class UserManager(models.Manager):
         results = {'status': True, 'errors': []}
         userid = User.objects.get(id=postData['user_id'])
         friendid = User.objects.get(id=postData['friend_id'])
+        userid.friend.add(friendid.id)
         friendid.friend.add(userid.id)
         return results
 
@@ -93,6 +94,7 @@ class UserManager(models.Manager):
         results = {'status': True, 'errors': []}
         userid = User.objects.get(id=curruser)
         friendid = User.objects.get(id=friendtoremove)
+        userid.friend.remove(friendid)
         friendid.friend.remove(userid)
         return results
 
