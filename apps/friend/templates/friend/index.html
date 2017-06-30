@@ -25,7 +25,7 @@
                         {% for friend in userfriends %}
                         <tr>
                             <td align="center">{{ friend.alias }}</td>
-                            <td align="center"> <a href="{% url 'friend:showUser' friend.id %}">View Profile</a> | <a href="">Remove as Friend</a></td>
+                            <td align="center"> <a href="{% url 'friend:showUser' friend.id %}">View Profile</a> | <a href="{% url 'friend:removeFriend' friend.id %}">Remove as Friend</a></td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -35,6 +35,7 @@
             </div>
             <div id="otherusersfriends">
                 <h4>Other users not on your friends list:</h4>
+                <p><i><font size="2">If you don't see your friends here, invite them to register</font></i></p>
                 {% if otherfriends %}
                     <table width="50%" border="1">
                         <tr>
@@ -43,7 +44,7 @@
                         </tr>
                         {% for friend in otherfriends %}
                         <tr>
-                            <td align="center">{{ friend.alias }}</td>
+                            <td align="center"><a href="{% url 'friend:showUser' friend.id %}">{{ friend.alias }}</a></td>
                             <td align="center">
                                 <form action="{% url 'friend:addFriend' %}" id="addFriendButton" method="post">
                                     {% csrf_token %}

@@ -6,8 +6,8 @@ from .models import User
 
 def index(request):
     user = User.objects.get(id=request.session['id'])
-    userfriends = User.objects.filter(friend=request.session['id'])
-    otherfriends = User.objects.exclude(friend=request.session['id'])
+    userfriends = User.objects.filter(friend=request.session['id']).exclude(id=request.session['id'])
+    otherfriends = User.objects.exclude(friend=request.session['id']).exclude(id=request.session['id'])
     context = {
         'user': user,
         'userfriends': userfriends,
@@ -25,3 +25,9 @@ def showUser(request, userid):
 def addFriend(request):
     insertAddFriend = User.objects.insertAddFriend(request.POST)
     return redirect('friend:index')
+
+def removeFriend(request, friendtoremove):
+    curruser = request.session['id']
+    removeUserFriend = User.objects.removeFriend(friendtoremove, curruser)
+    return redirect('friend:index')
+    

@@ -39,11 +39,11 @@ class UserManager(models.Manager):
             results['status'] = False
         if results['status'] is False:  #return results NOW if there are form validation errors.
             return results
-        user = User.objects.filter(email=postData['email']) #once form validations is done, check for the user account
+        user = User.objects.filter(email=postData['email']) #form val done, check for existing user account
         if user:
             results['status'] = False
             results['errors'].append("Registration Failure, have you tried to login?")
-            results['reset'] = True                     #clear session temp form data if registration fails.
+            results['reset'] = True    #clear session temp form data if registration fails.
         if results['status'] is False:
             return results
         if results['status']:
@@ -86,6 +86,14 @@ class UserManager(models.Manager):
         userid = User.objects.get(id=postData['user_id'])
         friendid = User.objects.get(id=postData['friend_id'])
         friendid.friend.add(userid.id)
+        return results
+
+    def removeFriend(self, friendtoremove, curruser):
+        """ Remove Friend to this user account """
+        results = {'status': True, 'errors': []}
+        userid = User.objects.get(id=curruser)
+        friendid = User.objects.get(id=friendtoremove)
+        friendid.friend.remove(userid)
         return results
 
 class User(models.Model):
