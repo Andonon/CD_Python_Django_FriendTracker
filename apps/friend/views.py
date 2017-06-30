@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import User
 
 def index(request):
-    try: 
-        user = User.objects.get(id=request.session['id'])  
-    except KeyError: 
-        return render(request, 'friend/error.html')
+    try:
+        request.session['id']
+    except KeyError:
+        request.session.flush()
+        messages.error(request, 'There is user session detected, please login.')
+        return redirect('auth:index')
     user = User.objects.get(id=request.session['id'])
     userfriends = User.objects.filter(friend=request.session['id']).exclude(id=request.session['id'])
     otherfriends = User.objects.exclude(friend=request.session['id']).exclude(id=request.session['id'])
@@ -20,6 +22,12 @@ def index(request):
     return render(request, 'friend/index.html', context)
 
 def showUser(request, userid):
+    try:
+        request.session['id']
+    except KeyError:
+        request.session.flush()
+        messages.error(request, 'There is user session detected, please login.')
+        return redirect('auth:index')
     user = User.objects.get(id=userid)
     context = {
         'user': user
